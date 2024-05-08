@@ -1,0 +1,29 @@
+- 기본 셋팅
+$ npm init -y
+$ npm install express mongoose body-parser
+body-parser : req 로 받는 body-> json 파싱
+app.use(bodyParser.json())
+$ npm install -g nodemon => 서버 수정후에도 자동 새로 고침(?) 
+
+
+- mongoose crud
+https://mongoosejs.com/docs/7.x/docs/queries.html
+Model.deleteMany()
+Model.deleteOne()
+Model.find()
+Model.findById()
+Model.findByIdAndDelete()
+Model.findByIdAndRemove()
+Model.findByIdAndUpdate()
+Model.findOne()
+Model.findOneAndDelete()
+Model.findOneAndRemove()
+Model.findOneAndReplace()
+Model.findOneAndUpdate()
+Model.replaceOne()
+Model.updateMany()
+Model.updateOne()
+
+CORS 에러
+- npm install cors
+- 보안을 
