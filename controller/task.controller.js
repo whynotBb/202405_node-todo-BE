@@ -1,23 +1,24 @@
-const Task = require("../model/Task");
+const Task = require('../model/Task');
 
 const taskController = {};
 
 taskController.createTask = async (req, res) => {
     try {
-        const { task, isComplete } = req.body;
-        const newTask = new Task({ task, isComplete });
+        const {task, isComplete} = req.body;
+        const {userId} = req;
+        const newTask = new Task({task, isComplete, author: userId});
         await newTask.save();
-        res.status(200).json({ status: "ok", data: newTask });
+        res.status(200).json({status: 'ok', data: newTask});
     } catch (err) {
-        res.status(400).json({ status: "fail", error: err });
+        res.status(400).json({status: 'fail', error: err});
     }
 };
 taskController.getTask = async (req, res) => {
     try {
-        const taskList = await Task.find({}).select("-__v"); //__v 는 빼고
-        res.status(200).json({ status: "ok", data: taskList });
+        const taskList = await Task.find({}).populate('author');
+        res.status(200).json({status: 'ok', data: taskList});
     } catch (err) {
-        res.status(400).json({ status: "fail", error: err });
+        res.status(400).json({status: 'fail', error: err});
     }
 };
 
@@ -27,7 +28,7 @@ taskController.updateTask = async (req, res) => {
         const task = await Task.findById(req.params.id);
         // 일치하는 task가 없는 경우 에러메시지를 보내준다.
         if (!task) {
-            throw new Error("app can not find the task");
+            throw new Error('app can not find the task');
         }
         // req.body 에서 key 값을 가져온다. task, isComplete
         const fields = Object.keys(req.body);
@@ -51,18 +52,18 @@ taskController.updateTask = async (req, res) => {
 
         // Task 저장
         // await task.save();
-        res.status(200).json({ status: "update success", data: task });
+        res.status(200).json({status: 'update success', data: task});
     } catch (err) {
-        res.status(400).json({ status: "fail", error: err });
+        res.status(400).json({status: 'fail', error: err});
     }
 };
 
 taskController.deleteTask = async (req, res) => {
     try {
         const deleteItem = await Task.findByIdAndDelete(req.params.id);
-        res.status(200).json({ status: "delete success", data: deleteItem });
+        res.status(200).json({status: 'delete success', data: deleteItem});
     } catch (err) {
-        res.status(400).json({ status: "fail", error: err });
+        res.status(400).json({status: 'fail', error: err});
     }
 };
 
